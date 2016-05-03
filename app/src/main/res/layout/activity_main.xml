@@ -1,0 +1,135 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dip" >
+        	
+            <Button
+              android:id="@+id/set_alias"
+              android:text="@string/set_alias"
+              android:textSize="@dimen/textbtnsize"
+              android:background="@drawable/all_btn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="@dimen/set_padding"
+              android:paddingRight="@dimen/set_padding"
+              android:layout_marginLeft="@dimen/margin_button" />
+            <Button
+                android:id="@+id/set_account"
+                android:text="@string/set_account"
+                android:textSize="@dimen/textbtnsize"
+                android:background="@drawable/all_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_marginLeft="@dimen/margin_button"
+                android:paddingLeft="@dimen/set_padding"
+                android:paddingRight="@dimen/set_padding" />
+             <Button
+                android:id="@+id/subscribe_topic"
+                android:text="@string/subscribe_topic"
+                android:textSize="@dimen/textbtnsize"
+                android:background="@drawable/all_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:layout_marginLeft="@dimen/margin_button"
+                android:paddingLeft="@dimen/set_padding"
+      	        android:paddingRight="@dimen/set_padding" />
+    </LinearLayout>
+
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dip" >
+             
+            <Button
+                android:id="@+id/unset_alias"
+                android:text="@string/unset_alias"
+                android:textSize="@dimen/textbtnsize"
+                android:background="@drawable/all_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_button"
+                android:paddingLeft="@dimen/set_padding"
+            	android:paddingRight="@dimen/set_padding" />
+             <Button
+                 android:id="@+id/unset_account"
+                 android:text="@string/unset_account"
+                 android:textSize="@dimen/textbtnsize"
+                 android:background="@drawable/all_btn"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="@dimen/margin_button"
+                 android:paddingLeft="@dimen/set_padding"
+         	     android:paddingRight="@dimen/set_padding" />
+             <Button
+                 android:id="@+id/unsubscribe_topic"
+                 android:text="@string/unsubscribe_topic"
+                 android:textSize="@dimen/textbtnsize"
+                 android:background="@drawable/all_btn"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="@dimen/margin_button"
+                 android:paddingLeft="@dimen/set_padding"
+         	     android:paddingRight="@dimen/set_padding" />
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+             <Button
+                android:id="@+id/pause_push"
+                android:text="@string/pause_push"
+                android:textSize="@dimen/textbtnsize"
+                android:background="@drawable/all_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_button"
+                android:paddingLeft="@dimen/set_padding"
+                android:paddingRight="@dimen/set_padding" />
+             <Button
+                android:id="@+id/resume_push"
+                android:text="@string/resume_push"
+                android:textSize="@dimen/textbtnsize"
+                android:background="@drawable/all_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_button"
+                android:paddingLeft="@dimen/set_padding"
+                android:paddingRight="@dimen/set_padding" />
+             <Button
+                android:id="@+id/set_accept_time"
+                android:text="@string/set_accept_time"
+                android:textSize="@dimen/textbtnsize"
+                android:background="@drawable/all_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_button"
+                android:paddingLeft="@dimen/set_padding"
+                android:paddingRight="@dimen/set_padding" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="10dip"
+        android:scrollbars="vertical" >
+        <TextView
+                android:id="@+id/log"
+                android:textSize="@dimen/textsize"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:singleLine="false"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" />
+    </ScrollView>
+
+</LinearLayout>

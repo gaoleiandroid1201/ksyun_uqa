@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '21.1.2'
+
+    defaultConfig {
+        applicationId "com.ksyun.cdn"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile files('libs/android-logging-log4j-1.0.3.jar')
+    compile files('libs/MiPush_SDK_Client_2_2_21.jar')
+    compile files('libs/okhttp-2.6.0.jar')
+    compile files('libs/okio-1.6.0.jar')
+    compile files('libs/dnsjava-2.1.7.jar')
+}
+
+task clearJar(type: Delete) {
+    delete 'build/libs/ksyun_uaq.0.jar'
+}
+
+task makeJar(type: Jar) {
+    //指定生成的jar名
+    baseName 'ksyun-cdn-task-v1.0'
+    //从哪里打包class文件
+    from('build/intermediates/classes/debug/com/ksyun/cdn/core/')
+    //打包到jar后的目录结构
+    into('com/ksyun/cdn/core')
+}
+
+makeJar.dependsOn(clearJar, build)
