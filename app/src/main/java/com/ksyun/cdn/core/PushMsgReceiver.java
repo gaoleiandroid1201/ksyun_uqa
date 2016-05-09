@@ -104,7 +104,7 @@ public class PushMsgReceiver extends com.xiaomi.mipush.sdk.PushMessageReceiver {
         List<String> arguments = message.getCommandArguments();
         String cmdArg1 = ((arguments != null && arguments.size() > 0) ? arguments.get(0) : null);
         String cmdArg2 = ((arguments != null && arguments.size() > 1) ? arguments.get(1) : null);
-        String log = "";
+        String log;
         if (MiPushClient.COMMAND_REGISTER.equals(command)) {
             if (message.getResultCode() == ErrorCode.SUCCESS) {
                 mRegId = cmdArg1;
@@ -196,7 +196,7 @@ public class PushMsgReceiver extends com.xiaomi.mipush.sdk.PushMessageReceiver {
     }
 
     @SuppressLint("SimpleDateFormat")
-    public static String getSimpleDate() {
+    private static String getSimpleDate() {
         return new SimpleDateFormat("MM-dd hh:mm:ss").format(new Date());
     }
 

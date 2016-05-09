@@ -4,8 +4,8 @@ import android.util.Log;
 
 
 import com.ksyun.cdn.demo.CustomApplication;
-import com.ksyun.cdn.core.callback.ITask;
-import com.ksyun.cdn.core.callback.MyInterface;
+import com.ksyun.cdn.core.callback.IPushTask;
+import com.ksyun.cdn.core.callback.PushServiceInterface;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,7 +22,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class HttpTask implements ITask {
+public class HttpPushTask implements IPushTask {
 
 
     private long time_total;
@@ -37,13 +37,13 @@ public class HttpTask implements ITask {
     private int statTcp = 1;
     private String formatResult;
 
-    public MyInterface.OnGetSyncResultListener getSyncResultListener;
+    private PushServiceInterface.OnGetSyncResultListener getSyncResultListener;
 
-    public void setGetSyncResult(MyInterface.OnGetSyncResultListener getSyncResultListener) {
+    public void setGetSyncResult(PushServiceInterface.OnGetSyncResultListener getSyncResultListener) {
         this.getSyncResultListener = getSyncResultListener;
     }
 
-    public HttpTask(String url) {
+    public HttpPushTask(String url) {
         url_effective = url;
         if (url.startsWith("https")) {
             isHttps = true;
@@ -70,7 +70,7 @@ public class HttpTask implements ITask {
         formatResult = String.format(str, time_total, time_namelookup, time_connect, ssl_verify_result, http_code, url_effective, remote_ip, remote_port);
     }
 
-    public void parseDNS() {
+    private void parseDNS() {
         try {
             long parseDNSBegin = System.currentTimeMillis();
             InetAddress address = InetAddress.getByName(url_effective);
@@ -82,7 +82,7 @@ public class HttpTask implements ITask {
         }
     }
 
-    public void openRequestConn() {
+    private void openRequestConn() {
         try {
             long connectBegin = System.currentTimeMillis();
             URL url = new URL("http://www.baidu.com");

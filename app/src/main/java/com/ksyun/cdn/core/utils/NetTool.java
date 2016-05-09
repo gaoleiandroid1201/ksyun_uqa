@@ -56,7 +56,7 @@ public class NetTool {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					conn.getInputStream(), encoding));
 			// 数据
-			String retData = null;
+			String retData ;
 			String responseData = "";
 			while ((retData = in.readLine()) != null) {
 				responseData += retData;
@@ -108,7 +108,7 @@ public class NetTool {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					conn.getInputStream(), encoding));
 			// 数据
-			String retData = null;
+			String retData;
 			String responseData = "";
 			while ((retData = in.readLine()) != null) {
 				responseData += retData;
@@ -165,7 +165,7 @@ public class NetTool {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					conn.getInputStream(), encoding));
 			// 数据
-			String retData = null;
+			String retData;
 			String responseData = "";
 			while ((retData = in.readLine()) != null) {
 				responseData += retData;
@@ -245,7 +245,9 @@ public class NetTool {
 			throw e;
 		} finally {
 			try {
-				buffer.close();
+				if (buffer != null) {
+					buffer.close();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -278,7 +280,7 @@ public class NetTool {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					conn.getInputStream(), encoding));
 			// 数据
-			String retData = null;
+			String retData;
 			String responseData = "";
 			while ((retData = in.readLine()) != null) {
 				responseData += retData;
@@ -367,7 +369,9 @@ public class NetTool {
 			return -1;
 		} finally {
 			try {
-				inputStream.close();
+				if (inputStream != null) {
+					inputStream.close();
+				}
 			} catch (Exception e) {
 				throw e;
 			}
@@ -416,7 +420,9 @@ public class NetTool {
 			e.printStackTrace();
 		} finally {
 			try {
-				output.close();
+				if (output != null) {
+					output.close();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

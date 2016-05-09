@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ksyun.cdn.demo.CustomApplication;
-import com.ksyun.cdn.core.callback.ITask;
-import com.ksyun.cdn.core.callback.MyInterface;
+import com.ksyun.cdn.core.callback.IPushTask;
+import com.ksyun.cdn.core.callback.PushServiceInterface;
 
 
 import org.xbill.DNS.Lookup;
@@ -16,21 +16,18 @@ import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Administrator on 2016/3/28.
- */
-public class DNSParseTask implements ITask {
+public class DNSParsePushTask implements IPushTask {
 
     private String formatResult;
-    public MyInterface.OnGetSyncResultListener getSyncResultListener;
+    private PushServiceInterface.OnGetSyncResultListener getSyncResultListener;
     private String url;
-    public void setGetSyncResult(MyInterface.OnGetSyncResultListener getSyncResultListener) {
+    public void setGetSyncResult(PushServiceInterface.OnGetSyncResultListener getSyncResultListener) {
         this.getSyncResultListener = getSyncResultListener;
     }
 
     Map<String, Object> map = new HashMap<String, Object>();
 
-    public DNSParseTask(String url) {
+    public DNSParsePushTask(String url) {
         this.url=url;
     }
 
@@ -54,9 +51,8 @@ public class DNSParseTask implements ITask {
                         Log.d(CustomApplication.TAG, "rec.toString()----------------" + rec.toString().split("A")[1]);
                         i++;
                     }
-                    i = 1;
                     String formattedStr = map.toString();
-                    Log.d(CustomApplication.TAG, "map.toString()----------------" + map.toString());
+                    Log.d(CustomApplication.TAG, "map.toString()----------------" + formattedStr);
                     Gson gson = new Gson();
                     String jsonStr = gson.toJson(map);
 

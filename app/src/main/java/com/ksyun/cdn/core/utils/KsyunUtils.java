@@ -1,27 +1,15 @@
 package com.ksyun.cdn.core.utils;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.telephony.TelephonyManager;
-import android.util.Log;
-
-
-import com.ksyun.cdn.demo.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -41,35 +29,6 @@ import java.util.StringTokenizer;
 
 
 public class KsyunUtils {
-
-    public static void init(Context context) {
-        Global.IMEI = getImei(context);
-        Global.OS = getAndroidVersion();
-        Global.MODEL = getModel();
-        Global.HOLMES_VERSION = getVersionName(context);
-//        Global.UID = getUid(context);
-        Log.d("gaolei","Global.UID---------------------"+Global.UID);
-        KsyunUtils.getToken(context, MainActivity.sMainActivity);
-    }
-
-    public static String getSimpleDate() {
-        return new SimpleDateFormat("MM-dd hh:mm:ss").format(new Date());
-    }
-
-    public static String getImei(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.getDeviceId();
-    }
-
-    public static String getModel() {
-        return Build.MODEL;
-    }
-
-    public static String getAndroidVersion() {
-        String release = Build.VERSION.RELEASE;
-        int sdkVersion = Build.VERSION.SDK_INT;
-        return "Android SDK: " + sdkVersion + " (" + release + ")";
-    }
 
     public static int getUid(Context context) {
         int uid = -1;
@@ -108,7 +67,7 @@ public class KsyunUtils {
                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress() ) {
-                        return inetAddress.getHostAddress().toString();
+                        return inetAddress.getHostAddress();
                     }
                 }
             }
@@ -157,21 +116,7 @@ public class KsyunUtils {
         return "";
     }
 
-    public static String getVersionName(Context context) {
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            PackageInfo packInfo;
-            packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-            String version = packInfo.versionName;
-            return version;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-
-    public static String getSettingKeyString(String key, Context context) {
+    private static String getSettingKeyString(String key, Context context) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPref.getString(key, "");
     }
@@ -207,58 +152,7 @@ public class KsyunUtils {
         return isRunning;
     }
 
-    public static Account getXiaomiAccount(Context context) {
-        Account account = null;
-        AccountManager am = AccountManager.get(context);
-        Account[] accounts = am.getAccountsByType(Global.AID);
-        if (accounts.length > 0) {
-            account = accounts[0];
-        }
-        return account;
-    }
-
-    public static void getToken(Context context, Activity activity) {
-        Account account = KsyunUtils.getXiaomiAccount(context);
-        if (account == null) {
-            AccountManager.get(context).addAccount(Global.AID, Global.SID, null, null, activity, null, null);
-        } else {
-
-            class TokenTask implements Runnable {
-                private Context mContext;
-                private Activity mActivity;
-
-                public TokenTask(Context context, Activity activity) {
-                    mContext = context;
-                    mActivity = activity;
-                }
-
-                public void run() {
-                    String token = null;
-                    Account account = null;
-                    try {
-                        account = KsyunUtils.getXiaomiAccount(mContext);
-                        AccountManager am = AccountManager.get(mContext);
-                        AccountManagerFuture<Bundle> future = am.getAuthToken(account, Global.SID, null, mActivity, null, null);
-                        token = future.getResult().getString(AccountManager.KEY_AUTHTOKEN);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    Log.i(Global.TAG, "Name:" + account.name);
-                    Log.i(Global.TAG, "Access token retrieved:" + token);
-                    Global.USER = account.name;
-                    Global.TOKEN = token;
-                }
-            }
-
-            TokenTask tokenTask = new TokenTask(context, activity);
-            new Thread(tokenTask).start();
-        }
-    }
-
-
-    public static String getSdcardPath() {
+    private static String getSdcardPath() {
         String sdcardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
         return sdcardPath;
     }
@@ -269,10 +163,10 @@ public class KsyunUtils {
         if (mkdir(path))
             return path;
         else
-            return "/sdcard/";
+            return Environment.getExternalStorageDirectory().getPath();
     }
 
-    public static boolean mkdir(String path) {
+    private static boolean mkdir(String path) {
         File file = new File(path);
         if (file.isDirectory())
             return true;
@@ -303,8 +197,6 @@ public class KsyunUtils {
             return false;
     }
 
-
-
     public static boolean download(String uri, String filePath) {
         try {
             URL url = new URL(uri);
@@ -317,7 +209,7 @@ public class KsyunUtils {
         return true;
     }
 
-    public static void readStreamToFile(InputStream inStream, String filePath) throws Exception {
+    private static void readStreamToFile(InputStream inStream, String filePath) throws Exception {
         File file = new File(filePath + ".wei");
         RandomAccessFile outStream = new RandomAccessFile(file, "rw");
         outStream.seek(0);
@@ -331,6 +223,7 @@ public class KsyunUtils {
         file.renameTo(new File(filePath));
         return;
     }
+
     public static boolean isConnectingToInternet(Context context) {
 
         ConnectivityManager manager = (ConnectivityManager) context
@@ -347,4 +240,6 @@ public class KsyunUtils {
         }
         return false;
     }
+
+
 }

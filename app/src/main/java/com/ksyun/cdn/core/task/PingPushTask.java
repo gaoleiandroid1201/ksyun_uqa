@@ -4,26 +4,26 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ksyun.cdn.demo.CustomApplication;
-import com.ksyun.cdn.core.callback.ITask;
-import com.ksyun.cdn.core.callback.MyInterface;
+import com.ksyun.cdn.core.callback.IPushTask;
+import com.ksyun.cdn.core.callback.PushServiceInterface;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PingTask implements ITask {
+public class PingPushTask implements IPushTask {
 
     private String url = null;
     private String formatResult;
 
-    public PingTask(String url) {
+    public PingPushTask(String url) {
         this.url = url;
     }
 
-    public MyInterface.OnGetSyncResultListener getSyncResultListener;
+    public PushServiceInterface.OnGetSyncResultListener getSyncResultListener;
 
-    public void setGetSyncResult(MyInterface.OnGetSyncResultListener getSyncResultListener) {
+    public void setGetSyncResult(PushServiceInterface.OnGetSyncResultListener getSyncResultListener) {
         this.getSyncResultListener = getSyncResultListener;
     }
 
@@ -72,7 +72,7 @@ public class PingTask implements ITask {
                         map.put("Avg",avg);
                         map.put("Stdmdev",mdev);
 //                        String formatStr = String.format("{"+"DestIp:%s,Max:%s, Min:%s, Avg: %s, Stdmdev:%s", DestIp, max, min, avg, mdev+"}");
-                        String formatStr=new Gson().toJson(map).toString();
+                        String formatStr=new Gson().toJson(map);
                         setResult(formatStr);
                         getSyncResultListener.getSyncResult(getResult());
 //                        Log.d(CustomApplication.TAG, "min----------------" + min);

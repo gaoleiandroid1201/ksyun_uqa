@@ -51,7 +51,7 @@
             android:enabled="true" />
 
         <receiver
-            android:name=".core.PushMsgReceiver"
+            android:name="com.ksyun.cdn.core.PushMsgReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
@@ -82,8 +82,8 @@
         </receiver>
 
         <service
-            android:name=".core.service.TaskService"
-            android:exported="true"></service>
+            android:name="com.ksyun.cdn.core.service.TaskService"
+            android:exported="true"/>
     </application>
 
 </manifest>

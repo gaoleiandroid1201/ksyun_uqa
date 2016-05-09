@@ -5,7 +5,7 @@ import android.util.Log;
 
 
 import com.ksyun.cdn.demo.CustomApplication;
-import com.ksyun.cdn.core.callback.MyInterface;
+import com.ksyun.cdn.core.callback.PushServiceInterface;
 import com.ksyun.cdn.core.callback.NetRequest;
 import com.ksyun.cdn.core.utils.CommonUrl;
 
@@ -13,16 +13,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Administrator on 2016/4/20.
- */
-public class TaskManager implements MyInterface.NetRequestIterface, MyInterface.OnGetSyncResultListener {
+public class TaskManager implements PushServiceInterface.NetRequestInterface, PushServiceInterface.OnGetSyncResultListener {
 
-    public static final String TASK_TYPE_PING = "ping";
-    public static final String TASK_TYPE_TRACEROUTE = "traceroute";
-    public static final String TASK_TYPE_HTTP = "http";
-    public static final String TASK_TYPE_DNS = "dns";
-    public static final String TASK_TYPE_DOWNLOAD = "download";
+    private static final String TASK_TYPE_PING = "ping";
+    private static final String TASK_TYPE_TRACEROUTE = "traceroute";
+    private static final String TASK_TYPE_HTTP = "http";
+    private static final String TASK_TYPE_DNS = "dns";
+    private static final String TASK_TYPE_DOWNLOAD = "download";
     private NetRequest netRequest = null;
     private Map<String, Object> map = new HashMap<String, Object>();
     private String tid, stid, metric;
@@ -48,27 +45,27 @@ public class TaskManager implements MyInterface.NetRequestIterface, MyInterface.
         switch (metric.toLowerCase()) {
 
             case TASK_TYPE_PING:
-                PingTask pingTask = new PingTask(url);
+                PingPushTask pingTask = new PingPushTask(url);
                 pingTask.setGetSyncResult(this);
                 pingTask.doIt();
                 break;
             case TASK_TYPE_TRACEROUTE:
-                TraceRouteTask traceRouteTask = new TraceRouteTask(url);
+                TraceRoutePushTask traceRouteTask = new TraceRoutePushTask(url);
                 traceRouteTask.setGetSyncResult(this);
                 traceRouteTask.doIt();
                 break;
             case TASK_TYPE_HTTP:
-                HttpTask httpTask = new HttpTask(url);
+                HttpPushTask httpTask = new HttpPushTask(url);
                 httpTask.setGetSyncResult(this);
                 httpTask.doIt();
                 break;
             case TASK_TYPE_DNS:
-                DNSParseTask dnsParseTask = new DNSParseTask(url);
+                DNSParsePushTask dnsParseTask = new DNSParsePushTask(url);
                 dnsParseTask.setGetSyncResult(this);
                 dnsParseTask.doIt();
                 break;
             case TASK_TYPE_DOWNLOAD:
-                DownloadTask downloadTask = new DownloadTask(url);
+                DownloadPushTask downloadTask = new DownloadPushTask(url);
                 downloadTask.setGetSyncResult(this);
                 downloadTask.doIt();
                 break;

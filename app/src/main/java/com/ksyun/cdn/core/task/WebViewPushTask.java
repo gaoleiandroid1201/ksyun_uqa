@@ -10,22 +10,19 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
-import com.ksyun.cdn.core.callback.ITask;
+import com.ksyun.cdn.core.callback.IPushTask;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by Administrator on 2016/3/23.
- */
-public class WebViewTask implements ITask {
+public class WebViewPushTask implements IPushTask {
     private String url = "http://www.baidugaolei.com";
     Activity activity;
     WebView webView;
     long startTime, endTime;
     private String formatResult;
 
-    public WebViewTask(Activity activity, WebView webView) {
+    public WebViewPushTask(Activity activity, WebView webView) {
         this.activity = activity;
         this.webView = webView;
     }
@@ -44,7 +41,7 @@ public class WebViewTask implements ITask {
         webView.setWebViewClient(new WebViewClient() {
             public void onLoadResource(WebView view, String url) {
                 // 在加载页面资源时会调用，每一个资源（比如图片）的加载都会调用一次。 
-                Log.d("gaolei", url.toString());
+                Log.d("gaolei", url);
             }
 
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -70,7 +67,7 @@ public class WebViewTask implements ITask {
             public void onReceivedError(WebView view, int errorCode,
                                         String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
-                Log.d("gaolei", "onReceivedError------------" + description.toString());
+                Log.d("gaolei", "onReceivedError------------" + description);
             }
 
             public void onPageStarted(WebView view, String url, Bitmap favicon) {

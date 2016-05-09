@@ -1,15 +1,20 @@
 package com.ksyun.cdn.core.task;
 
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.ksyun.cdn.core.callback.ITask;
-import com.ksyun.cdn.core.callback.MyInterface;
+import com.ksyun.cdn.core.callback.IPushTask;
+import com.ksyun.cdn.core.callback.PushServiceInterface;
+import com.ksyun.cdn.core.utils.FileUtils;
+import com.ksyun.cdn.core.utils.Global;
+
+import java.io.UnsupportedEncodingException;
 
 
-public class DownloadTask implements ITask {
+public class DownloadPushTask implements IPushTask {
     private String mUrl;
     private String formatResult;
-    public MyInterface.OnGetSyncResultListener getSyncResultListener;
+    private PushServiceInterface.OnGetSyncResultListener getSyncResultListener;
     public static final String KEY_TOTAL_TIME = "total_time";
     public static final String KEY_NAME_LOOK_UP_TIME = "name_look_up_time";
     public static final String KEY_CONNECT_TIME = "connect_time";
@@ -25,14 +30,17 @@ public class DownloadTask implements ITask {
     public static final String KEY_EFFECTIVE_URL = "effective_url";
 
     static {
+//        System.loadLibrary("ksyunpushtask");
         System.loadLibrary("testlibrary");
     }
 
-    public void setGetSyncResult(MyInterface.OnGetSyncResultListener getSyncResultListener) {
+    private String mHeaderString;
+
+    public void setGetSyncResult(PushServiceInterface.OnGetSyncResultListener getSyncResultListener) {
         this.getSyncResultListener = getSyncResultListener;
     }
 
-    public DownloadTask(String url) {
+    public DownloadPushTask(String url) {
         this.mUrl = url;
     }
 
@@ -56,4 +64,18 @@ public class DownloadTask implements ITask {
     }
 
     public native String downloadUrl(String url);
+
+    public void postEventFromNative(int what, int arg1, int arg2, byte[] msg) {
+        try {
+            String result = new String(msg,"UTF-8");
+            String[] resultArray = result.split("/");
+            mHeaderString = resultArray[0];
+            FileUtils.writeSDFile(msg,"downloadtask.txt",false);
+            Log.i(Global.TAG, "postEventFromNative, what = " + what + ",arg1 = " + arg1 + ",arg2 = " + arg2 + ",msg = " + result);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

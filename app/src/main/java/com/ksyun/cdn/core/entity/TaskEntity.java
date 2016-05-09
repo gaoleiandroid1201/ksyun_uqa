@@ -3,9 +3,6 @@ package com.ksyun.cdn.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2016/3/21.
- */
 public class TaskEntity {
     private String msg;
     private List<DataContent> data = new ArrayList<DataContent>();

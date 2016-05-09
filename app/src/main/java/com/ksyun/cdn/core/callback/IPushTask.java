@@ -1,7 +1,7 @@
 package com.ksyun.cdn.core.callback;
 
 
-public interface ITask {
+public interface IPushTask {
 	
 	// 执行任务
 	public void doIt();

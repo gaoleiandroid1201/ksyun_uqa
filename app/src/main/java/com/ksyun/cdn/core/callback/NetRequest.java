@@ -27,11 +27,11 @@ import javax.net.ssl.TrustManagerFactory;
 
 
 public class NetRequest {
-    private MyInterface.NetRequestIterface netRequestIterface;
+    private PushServiceInterface.NetRequestInterface netRequestInterface;
     private Context context;
 
-    public NetRequest(MyInterface.NetRequestIterface netRequestIterface, Context context) {
-        this.netRequestIterface = netRequestIterface;
+    public NetRequest(PushServiceInterface.NetRequestInterface netRequestInterface, Context context) {
+        this.netRequestInterface = netRequestInterface;
         this.context = context;
     }
 
@@ -43,9 +43,9 @@ public class NetRequest {
         Log.d(CustomApplication.TAG, "NetRequest--------startTime-----" + startTime);
         try {
             OkHttpClient mOkHttpClient = new OkHttpClient();
-            FormEncodingBuilder builder = new FormEncodingBuilder();
+//            FormEncodingBuilder builder = new FormEncodingBuilder();
 
-            Request request = null;
+            Request request;
             if (map != null) {
                 MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                 Log.d(CustomApplication.TAG, "post----------------" + new Gson().toJson(map));
@@ -67,13 +67,13 @@ public class NetRequest {
             mOkHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Request request, IOException e) {
-                    netRequestIterface.exception(e, requestUrl);
+                    netRequestInterface.exception(e, requestUrl);
                 }
 
                 @Override
                 public void onResponse(final Response response) throws IOException {
                     String result = response.body().string();
-                    netRequestIterface.changeView(result, requestUrl);
+                    netRequestInterface.changeView(result, requestUrl);
                     long endTime = System.currentTimeMillis();
                     Log.d(CustomApplication.TAG, "NetRequest--------result-----" + result);
                     Log.d(CustomApplication.TAG, "NetRequest--------endTime-----" + endTime);

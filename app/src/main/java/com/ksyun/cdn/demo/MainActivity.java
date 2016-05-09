@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ksyun.cdn.R;
-import com.ksyun.cdn.core.callback.MyInterface;
+import com.ksyun.cdn.core.callback.PushServiceInterface;
 import com.ksyun.cdn.core.service.TaskService;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-public class MainActivity extends Activity implements MyInterface.OnGetSyncResultListener {
+public class MainActivity extends Activity implements PushServiceInterface.OnGetSyncResultListener {
 
     public static List<String> logList = new CopyOnWriteArrayList<String>();
 
@@ -43,7 +43,7 @@ public class MainActivity extends Activity implements MyInterface.OnGetSyncResul
 
         sMainActivity = this;
         logView = (TextView) findViewById(R.id.log);
-        WebView webView = new WebView(this);
+//        WebView webView = new WebView(this);
         // 设置别名
         findViewById(R.id.set_alias).setOnClickListener(new OnClickListener() {
 
@@ -222,6 +222,9 @@ public class MainActivity extends Activity implements MyInterface.OnGetSyncResul
     protected void onResume() {
         super.onResume();
         refreshLogInfo();
+        Intent service = new Intent(MainActivity.this, TaskService.class);
+        startService(service);
+
     }
 
     public void refreshLogInfo() {

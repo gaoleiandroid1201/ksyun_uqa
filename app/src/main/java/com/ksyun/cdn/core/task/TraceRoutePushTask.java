@@ -3,8 +3,8 @@ package com.ksyun.cdn.core.task;
 import android.util.Log;
 
 
-import com.ksyun.cdn.core.callback.ITask;
-import com.ksyun.cdn.core.callback.MyInterface;
+import com.ksyun.cdn.core.callback.IPushTask;
+import com.ksyun.cdn.core.callback.PushServiceInterface;
 import com.ksyun.cdn.core.entity.TracerouteEntity;
 
 import java.io.BufferedReader;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TraceRouteTask implements ITask {
+public class TraceRoutePushTask implements IPushTask {
     // 目的IP
     public static String destIp = "";
     // 目的url
@@ -33,12 +33,12 @@ public class TraceRouteTask implements ITask {
     // 存放结果集的tarces
     private List<TracerouteEntity> traces = new ArrayList<TracerouteEntity>();
 
-    public TraceRouteTask(String url) {
+    public TraceRoutePushTask(String url) {
 
     }
-    public MyInterface.OnGetSyncResultListener getSyncResultListener;
+    public PushServiceInterface.OnGetSyncResultListener getSyncResultListener;
 
-    public void setGetSyncResult(MyInterface.OnGetSyncResultListener getSyncResultListener) {
+    public void setGetSyncResult(PushServiceInterface.OnGetSyncResultListener getSyncResultListener) {
         this.getSyncResultListener = getSyncResultListener;
     }
     public void doIt() {
@@ -51,7 +51,7 @@ public class TraceRouteTask implements ITask {
         }
 
         boolean endTrace = false;
-        String ret = null;
+        String ret ;
         for (int ttl = 1; ttl < maxTtl; ttl++) {
             final int index = ttl;
             if (!endTrace) {
@@ -59,7 +59,7 @@ public class TraceRouteTask implements ITask {
                 Log.d("KSYUN", "ttl-----------------" + index);
                 Log.d("KSYUN", "doTraceOne(ttl)-------ip----------" + ret);
                 Log.d("KSYUN", "doTraceOne(ttl)-------routeIp----------" + routeIp);
-                if (ret.equals(routeIp) && !ret.equals("") && ret != null) {
+                if (ret.equals(routeIp) && !ret.equals("")) {
                     endTrace = true;
                     traces.remove(traces.size() - 1);
                     setResult("");

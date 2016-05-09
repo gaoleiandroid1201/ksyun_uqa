@@ -8,7 +8,7 @@ import android.os.Process;
 import android.util.Log;
 
 import com.ksyun.cdn.core.PushMsgReceiver;
-import com.ksyun.cdn.core.utils.KsyunUtils;
+import com.ksyun.cdn.core.utils.KsyunClient;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -19,9 +19,9 @@ import java.util.List;
 public class CustomApplication extends Application {
 
     // user your appid the key.
-    public static final String APP_ID = "2882303761517446980";
+    private static final String APP_ID = "2882303761517446980";
     // user your appid the key.
-    public static final String APP_KEY = "5781744690980";
+    private static final String APP_KEY = "5781744690980";
 
     // 此TAG在adb logcat中检索自己所需要的信息， 只需在命令行终端输入 adb logcat | grep
     // com.xiaomi.mipushdemo
@@ -33,14 +33,12 @@ public class CustomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         // 注册push服务，注册成功后会向DemoMessageReceiver发送广播
         // 可以从DemoMessageReceiver的onCommandResult方法中MiPushCommandMessage对象参数中获取注册信息
         if (shouldInit()) {
             MiPushClient.registerPush(this, APP_ID, APP_KEY);
         }
-        // 6.0以上会报错，需要用户授权
-        KsyunUtils.init(getApplicationContext());
+        KsyunClient.init(getApplicationContext());
 
         //TODO 打jar包后，应去掉这段逻辑
         LoggerInterface newLogger = new LoggerInterface() {
