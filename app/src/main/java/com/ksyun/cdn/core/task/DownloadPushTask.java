@@ -3,12 +3,13 @@ package com.ksyun.cdn.core.task;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.ksyun.cdn.core.callback.IPushTask;
 import com.ksyun.cdn.core.callback.PushServiceInterface;
-import com.ksyun.cdn.core.utils.FileUtils;
 import com.ksyun.cdn.core.utils.Global;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 
 public class DownloadPushTask implements IPushTask {
@@ -28,13 +29,12 @@ public class DownloadPushTask implements IPushTask {
     public static final String KEY_SPEED_DOWNLOAD = "speed_download";
     public static final String KEY_DOWNLOAD_SIZE = "download_size";
     public static final String KEY_EFFECTIVE_URL = "effective_url";
+    private HashMap<String, String> mHeaderMaps = new HashMap<>();
 
     static {
 //        System.loadLibrary("ksyunpushtask");
         System.loadLibrary("testlibrary");
     }
-
-    private String mHeaderString;
 
     public void setGetSyncResult(PushServiceInterface.OnGetSyncResultListener getSyncResultListener) {
         this.getSyncResultListener = getSyncResultListener;
@@ -67,15 +67,27 @@ public class DownloadPushTask implements IPushTask {
 
     public void postEventFromNative(int what, int arg1, int arg2, byte[] msg) {
         try {
-            String result = new String(msg,"UTF-8");
-            String[] resultArray = result.split("/");
-            mHeaderString = resultArray[0];
-            FileUtils.writeSDFile(msg,"downloadtask.txt",false);
-            Log.i(Global.TAG, "postEventFromNative, what = " + what + ",arg1 = " + arg1 + ",arg2 = " + arg2 + ",msg = " + result);
+            if (msg != null) {
+                String result = new String(msg, "UTF-8");
+                String[] resultArray = result.split("\\r\\n\\r\\n");
+                String mHeaderStringWithState = resultArray[0];
+                String[] headerWithStateArray = mHeaderStringWithState.split("\\r\\n");
+                if (mHeaderMaps.size() > 0) {
+                    mHeaderMaps.clear();
+                }
+                // Dismiss state info
+                for (int i = 1; i < headerWithStateArray.length; i++) {
+                    String headerWithValue = headerWithStateArray[i];
+                    String[] headerWithValueArray = headerWithValue.split(":");
+                    mHeaderMaps.put(headerWithValueArray[0], headerWithValueArray[1]);
+                }
+                String formatStr = new Gson().toJson(mHeaderMaps);
+                Log.i(Global.TAG, "postEventFromNative, what = " + what + ",arg1 = " + arg1 + ",arg2 = " + arg2 + ",msg = " + result);
+            }
+//            FileUtils.writeSDFile(msg, "downloadtask.txt", false);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
-
 
 }

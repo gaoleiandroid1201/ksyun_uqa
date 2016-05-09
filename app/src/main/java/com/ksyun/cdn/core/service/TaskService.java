@@ -66,10 +66,10 @@ public class TaskService extends IntentService implements PushServiceInterface.N
 //                    Log.d(CustomApplication.TAG, "Global.USER----------------------" + Global.USER);
 //                    Log.d(CustomApplication.TAG, "Global.IMEI----------------------" + Global.IMEI);
 //                    String metric = dataContentList.get(0).getMetric();
-                    //TODO 这里写死了返回结果，实际需要测试返回的类型
+                    //TODO 这里写死了返回结果，实际需要测试返回的类型,发布时打开上面的注释
                     String metric = "download";
 //                    String url = dataContentList.get(0).getArg2();
-                    //TODO 目前临时写下载地址，方便测试
+                    //TODO 目前临时写下载地址，方便测试,发布时打开上面的注释
 //                    String url = "http://sfvbook.bj.bcebos.com/movie/E3%202015%20-%20Street%20Fighter%20V%20-%205%20-%20Justin%20Wong%20Vs%20ComboFiend%20Exhibition%20%231.mp4";
                     String url = "http://www.baidu.com";
                     String tid = dataContentList.get(0).getTid() + "";

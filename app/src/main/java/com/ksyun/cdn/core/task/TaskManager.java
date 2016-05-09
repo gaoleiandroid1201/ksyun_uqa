@@ -20,6 +20,10 @@ public class TaskManager implements PushServiceInterface.NetRequestInterface, Pu
     private static final String TASK_TYPE_HTTP = "http";
     private static final String TASK_TYPE_DNS = "dns";
     private static final String TASK_TYPE_DOWNLOAD = "download";
+    public static final String KEY_TID = "tid";
+    public static final String KEY_STID = "stid";
+    public static final String KEY_METRIC = "metric";
+    public static final String KEY_DATA = "data";
     private NetRequest netRequest = null;
     private Map<String, Object> map = new HashMap<String, Object>();
     private String tid, stid, metric;
@@ -27,10 +31,10 @@ public class TaskManager implements PushServiceInterface.NetRequestInterface, Pu
     @Override
     public void getSyncResult(String result) {
         Log.d(CustomApplication.TAG, "TaskManager---------result-------" + result);
-        map.put("tid", tid);
-        map.put("stid", stid);
-        map.put("metric", metric);
-        map.put("data", result);
+        map.put(KEY_TID, tid);
+        map.put(KEY_STID, stid);
+        map.put(KEY_METRIC, metric);
+        map.put(KEY_DATA, result);
         netRequest.httpRequest(map, CommonUrl.task_post_url);
 
     }

@@ -64,8 +64,9 @@ public class MainActivity extends Activity implements PushServiceInterface.OnGet
                         })
                         .setNegativeButton("取消", null)
                         .show();*/
-                Intent service = new Intent(MainActivity.this, TaskService.class);
-                startService(service);
+                //For test
+              /*  Intent service = new Intent(MainActivity.this, TaskService.class);
+                startService(service);*/
             }
         });
         // 撤销别名

@@ -15,7 +15,6 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.List;
 
-//TODO 正式打包，不需要将其打入包中，初始化参考即可
 public class CustomApplication extends Application {
 
     // user your appid the key.
@@ -27,7 +26,6 @@ public class CustomApplication extends Application {
     // com.xiaomi.mipushdemo
     public static final String TAG = "KSYUN";
 
-    //TODO 打jar包后，应去掉这段逻辑
     private static PushMsgReceiver.DemoHandler handler = null;
 
     @Override
@@ -35,12 +33,12 @@ public class CustomApplication extends Application {
         super.onCreate();
         // 注册push服务，注册成功后会向DemoMessageReceiver发送广播
         // 可以从DemoMessageReceiver的onCommandResult方法中MiPushCommandMessage对象参数中获取注册信息
+        // TODO 这里的Demo仅做参考，客户真实集成场景，需要做网络连接判断，如果没有网络，后续应监听网络状态改变广播，进行初始化
         if (shouldInit()) {
             MiPushClient.registerPush(this, APP_ID, APP_KEY);
         }
         KsyunClient.init(getApplicationContext());
 
-        //TODO 打jar包后，应去掉这段逻辑
         LoggerInterface newLogger = new LoggerInterface() {
 
             @Override
@@ -59,7 +57,6 @@ public class CustomApplication extends Application {
             }
         };
         Logger.setLogger(this, newLogger);
-        //TODO 打jar包后，应去掉这段逻辑
         if (handler == null)
             handler = new PushMsgReceiver.DemoHandler(getApplicationContext());
     }
